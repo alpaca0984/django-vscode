@@ -10,11 +10,14 @@ services:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
   app:
-    build: .
+    build:
+      context: .
+      args:
+        - VARIANT=${PYTHON_VARIANT}
     command: python manage.py runserver 0.0.0.0:8000
     volumes:
       - .:/workspace
-      - site-packages-data:/usr/local/lib/python3.10/site-packages
+      - site-packages-data:/usr/local/lib/python${PYTHON_VARIANT}/site-packages
     ports:
       - "8000:8000"
     environment:
